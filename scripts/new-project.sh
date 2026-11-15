@@ -152,7 +152,7 @@ jobs:
         run: |
           pip install -r requirements.txt 2>/dev/null || pip install -e . 2>/dev/null || true
           pip install pytest
-          pytest || [ $? -eq 5 ]   # exit code 5 = no tests yet, which is OK
+          python -m pytest || [ $? -eq 5 ]   # python -m adds the repo root to the import path; exit code 5 = no tests yet
 
       - name: Nothing to test yet
         if: hashFiles('package.json', 'requirements.txt', 'pyproject.toml') == ''
