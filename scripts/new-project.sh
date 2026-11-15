@@ -56,6 +56,11 @@ Instructions for any AI agent working in this repo.
 - Run tests: `<command>`
 - Run locally: `<command>`
 
+## Environment
+- OS: Windows. Shell: PowerShell.
+- Use PowerShell syntax. Don't chain commands with `&&`; run them one at a time
+  or separate them with `;`.
+
 ## Workflow rules
 1. Every change starts from a GitHub Issue. Work on a branch named `issue-<number>-<short-name>`.
 2. Never push to `main`. Open a pull request that references the issue ("Closes #<number>").
@@ -182,6 +187,11 @@ fi
 
 # ---------- Create repo on GitHub and push ----------
 gh repo create "$NAME" $VISIBILITY --source=. --push
+
+# ---------- Delete branches automatically after merge ----------
+gh api -X PATCH "repos/$OWNER/$NAME" -F delete_branch_on_merge=true --silent \
+  && echo "Merged branches will be deleted automatically." \
+  || echo "Couldn't turn on auto-delete. Set it in Settings > General."
 
 # ---------- Branch protection: agents must go through PRs + CI ----------
 if [[ "$VISIBILITY" == "--public" ]]; then
